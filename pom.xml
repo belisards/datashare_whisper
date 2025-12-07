@@ -9,8 +9,8 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Datashare Whisper Transcription Extension</name>
-    <description>Audio/Video transcription using OpenAI Whisper</description>
+    <name>Whisper Audio/Video Transcription</name>
+    <description>Transcribe audio and video files using OpenAI Whisper with support for 99 languages and multiple formats</description>
     <url>https://github.com/ICIJ/datashare-extension-whisper</url>
     <inceptionYear>2024</inceptionYear>
 
