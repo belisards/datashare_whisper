@@ -8,6 +8,7 @@ import org.icij.datashare.text.Document;
 import org.icij.datashare.text.Language;
 import org.icij.datashare.text.NamedEntity;
 import org.icij.datashare.text.nlp.AbstractPipeline;
+import org.icij.datashare.text.nlp.Pipeline;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,6 +80,22 @@ public final class WhisperPipeline extends AbstractPipeline {
 
         LOGGER.info("WhisperPipeline initialized with model: {}, language: {}, timeout: {}s",
                     whisperModel, whisperLanguage, whisperTimeout);
+    }
+
+    /**
+     * Override getType() to return a valid Pipeline.Type enum value.
+     *
+     * WORKAROUND: Since WHISPER is not yet in the core Pipeline.Type enum,
+     * we use CORENLP as a placeholder. This is a temporary solution until
+     * WHISPER type is added to the datashare-api Pipeline.Type enum.
+     *
+     * Note: This extension processes audio/video files for transcription,
+     * not traditional NLP named entity recognition.
+     */
+    @Override
+    public Type getType() {
+        // Return CORENLP as placeholder - this allows the extension to register properly
+        return Type.CORENLP;
     }
 
     @Override
