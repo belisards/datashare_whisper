@@ -42,7 +42,7 @@
     </licenses>
 
     <properties>
-        <datashare.version>20.5.2</datashare.version>
+        <datashare.version>13.8.3</datashare.version>
         <guice.version>4.1.0</guice.version>
         <jackson.version>2.12.2</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
