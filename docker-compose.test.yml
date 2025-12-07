@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  datashare-whisper:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    image: datashare-whisper:local
+    container_name: datashare-whisper-test
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/home/datashare/data
+      - ./logs:/home/datashare/logs
+    environment:
+      - DS_DOCKER_MOUNTED_DATA_DIR=/home/datashare/data
+    command: >
+      --mode LOCAL
+      --nlpPipeline WHISPER
+      --whisperModel base
+      --whisperLanguage auto
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Example: Add Elasticsearch if needed
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+  #   environment:
+  #     - discovery.type=single-node
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ports:
+  #     - "9200:9200"

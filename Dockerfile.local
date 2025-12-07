@@ -1,0 +1,45 @@
+# Local testing Dockerfile (Option 2)
+# Requires pre-built JAR in current directory
+# Run: ./build-local.sh first
+
+FROM icij/datashare:13.7.1
+
+USER root
+
+# Install system dependencies for Whisper
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Whisper
+RUN pip3 install --no-cache-dir openai-whisper
+
+# Create extensions and plugins directories
+RUN mkdir -p /home/datashare/extensions /home/datashare/plugins
+
+# Copy pre-built Whisper extension from local build
+COPY datashare-extension-whisper.jar /home/datashare/extensions/datashare-extension-whisper-1.0.0-jar-with-dependencies.jar
+
+# Optional: Install Neo4j extension
+RUN cd /home/datashare/extensions && \
+    wget -q https://github.com/ICIJ/datashare-extension-neo4j/releases/download/1.1.1/datashare-extension-neo4j-1.1.1-jar-with-dependencies.jar && \
+    cd /home/datashare/plugins && \
+    wget -q https://github.com/ICIJ/datashare-extension-neo4j/releases/download/1.1.1/datashare-plugin-neo4j-graph-widget-1.1.1.tgz && \
+    tar -xzf datashare-plugin-neo4j-graph-widget-1.1.1.tgz && \
+    rm datashare-plugin-neo4j-graph-widget-1.1.1.tgz
+
+# Set proper permissions
+RUN chown -R datashare:datashare /home/datashare/extensions /home/datashare/plugins
+
+USER datashare
+
+# Verify installation
+RUN echo "Installed extensions:" && \
+    ls -lah /home/datashare/extensions/ && \
+    echo "" && \
+    echo "Whisper Python package:" && \
+    python3 -c "import whisper; print('✅ Whisper version:', whisper.__version__)"
+
+WORKDIR /home/datashare
