@@ -1,5 +1,7 @@
 # Datashare Whisper Transcription Extension
 
+# ⚠️ WARNING ⚠️ 🐞🤖 Buggy AI-Generated Code
+
 Automatically transcribe audio and video files using OpenAI's Whisper model as part of your Datashare document processing pipeline.
 
 ## Overview
